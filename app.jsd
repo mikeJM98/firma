@@ -1,0 +1,50 @@
+
+var canvas = document.getElementById('canvas')
+var ctx = canvas.getContext('2d')
+
+var rect = canvas.getBoundingClientRect()
+var x = 0
+var y = 0
+
+var dibujando = false
+
+function defcolor(c) {
+  color = c
+}
+function defgrosor(g) {
+  grosor = g
+}
+canvas.addEventListener('mousedown', function (e){
+  console.log('firmar init');
+  x=e.clientX - rect.left
+  y=e.clientY - rect.top
+  dibujando=true
+})
+canvas.addEventListener('mousemove', function (e) {
+  console.log('dibujando');
+  if (dibujando === true) {
+    xf = e.clientX - rect.left
+    yf = e.clientY - rect.top
+    firmar(x, y, xf, yf)
+    x=xf
+    y=yf
+  }
+})
+canvas.addEventListener('mouseup', function (e) {
+  console.log('end firmar');
+  if (dibujando===true) {
+    firmar(x, y, e.clientX - rect.left, e.clientY - rect.top)
+    x=0
+    y=0
+    dibujando=false
+  }
+})
+function firmar(x1,y1,x2,y2) {
+  ctx.beginPath();
+  ctx.strokeStyle='black';
+  ctx.lineWidth=1;
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  ctx.closePath();
+}
